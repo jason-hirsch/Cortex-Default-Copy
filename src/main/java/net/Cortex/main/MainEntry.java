@@ -49,10 +49,7 @@ public class MainEntry implements ModInitializer
 		Registry.register(Registry.BLOCK, new Identifier("cortex", "fabricator"), fabricator_block);
 		Registry.register(Registry.ITEM, new Identifier("cortex", "fabricator"), new BlockItem(fabricator_block, new Item.Settings().group(CORTEX_ITEM_GROUP)));
 		fabricator_entity = Registry.register(Registry.BLOCK_ENTITY_TYPE, "cortex:fabricator", FabricBlockEntityTypeBuilder.create(Fabricator_Entity::new, fabricator_block).build());
-		FABRICATOR_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerExtended(new Identifier("cortex", "fabricator"), (syncId, inventory, buf) -> {
-			System.out.println(inventory.player.world.isClient());
-			return new Fabricator_Gui_Description(syncId, inventory, ScreenHandlerContext.create(inventory.player.world, buf.readBlockPos()));
-		});
+		FABRICATOR_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerExtended(new Identifier("cortex", "fabricator"), (syncId, inventory, buf) -> new Fabricator_Gui_Description(syncId, inventory, ScreenHandlerContext.create(inventory.player.world, buf.readBlockPos())));
 
 		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
 		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));

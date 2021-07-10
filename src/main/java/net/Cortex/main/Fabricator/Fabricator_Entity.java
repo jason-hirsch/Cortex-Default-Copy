@@ -31,7 +31,7 @@ import java.util.stream.IntStream;
 public class Fabricator_Entity extends BlockEntity implements Fabricator_Inventory, SidedInventory, InventoryProvider, PropertyDelegateHolder, ExtendedScreenHandlerFactory
 {
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(12, ItemStack.EMPTY);
-    private int multiblockOptionIs = 0;
+    private int multiblockOptionIs = -10;
     private int multiblockOptionShouldBe = -1;
 
     private final PropertyDelegate propertyDelegate = new PropertyDelegate()
@@ -81,6 +81,8 @@ public class Fabricator_Entity extends BlockEntity implements Fabricator_Invento
     public void readNbt(NbtCompound nbt)
     {
         super.readNbt(nbt);
+        multiblockOptionShouldBe = nbt.getInt("multiblockOptionShouldBe");
+        multiblockOptionIs = nbt.getInt("multiblockOptionIs");
         Inventories.readNbt(nbt, items);
     }
 
@@ -88,6 +90,8 @@ public class Fabricator_Entity extends BlockEntity implements Fabricator_Invento
     public NbtCompound writeNbt(NbtCompound nbt)
     {
         Inventories.writeNbt(nbt, items);
+        nbt.putInt("multiblockOptionIs", multiblockOptionIs);
+        nbt.putInt("multiBlockOptionShouldBe", multiblockOptionShouldBe);
         return super.writeNbt(nbt);
     }
 
@@ -118,6 +122,7 @@ public class Fabricator_Entity extends BlockEntity implements Fabricator_Invento
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player)
     {
+        multiblockOptionIs = -10;
         return new Fabricator_Gui_Description(syncId, inv, ScreenHandlerContext.create(world, pos));
     }
 
