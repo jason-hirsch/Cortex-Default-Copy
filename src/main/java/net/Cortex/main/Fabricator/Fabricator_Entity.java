@@ -31,21 +31,24 @@ import java.util.stream.IntStream;
 public class Fabricator_Entity extends BlockEntity implements Fabricator_Inventory, SidedInventory, InventoryProvider, PropertyDelegateHolder, ExtendedScreenHandlerFactory
 {
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(12, ItemStack.EMPTY);
-    private int multiblockOptionIndex = -1;
+    private int multiblockOptionIs = 0;
+    private int multiblockOptionShouldBe = -1;
 
     private final PropertyDelegate propertyDelegate = new PropertyDelegate()
     {
         @Override
         public int get(int index)
         {
-            if(index == 0) return multiblockOptionIndex;
+            if(index == 0) return multiblockOptionIs;
+            else if(index == 1) return multiblockOptionShouldBe;
             return -2;
         }
 
         @Override
         public void set(int index, int value)
         {
-            if(index == 0) multiblockOptionIndex = value;
+            if(index == 0) multiblockOptionIs = value;
+            else if(index == 1) multiblockOptionShouldBe = value;
         }
 
         @Override
@@ -115,7 +118,6 @@ public class Fabricator_Entity extends BlockEntity implements Fabricator_Invento
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player)
     {
-        System.out.println(world.isClient());
         return new Fabricator_Gui_Description(syncId, inv, ScreenHandlerContext.create(world, pos));
     }
 

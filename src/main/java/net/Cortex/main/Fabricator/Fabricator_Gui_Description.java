@@ -35,7 +35,7 @@ public class Fabricator_Gui_Description extends SyncedGuiDescription
 
         setTitlePos(new Vec2i(62, 5));
 
-        WPlainPanel root = new WPlainPanel();
+        WPlainPanel root = new RootSubclass();
         setRootPanel(root);
 
         root.setSize(175, 185);
@@ -44,20 +44,12 @@ public class Fabricator_Gui_Description extends SyncedGuiDescription
         WItemSlot itemSlot = new WItemSlot(blockInventory, 0, 3, 4, false);
         root.add(itemSlot, 0, 10);
 
-        int optionIndex = propertyDelegate.get(0);
-        if(optionIndex == -1) {
-            displayOptions(root);
-        }
-        else {
-            displayClickedOption(root, optionIndex);
-        }
-
         root.add(createPlayerInventoryPanel(), 0, 85);
 
         root.validate(this);
     }
 
-    private void displayOptions(WPlainPanel root) {
+    public void displayOptions(WPlainPanel root) {
         final List<WWidget> widgets = new ArrayList<>();
 
         int x = 57;
@@ -78,9 +70,8 @@ public class Fabricator_Gui_Description extends SyncedGuiDescription
             widgets.add(button);
             final int finalI = i;
             button.setOnClick(() -> {
-                propertyDelegate.set(0, finalI);
+                propertyDelegate.set(1, finalI);
                 widgets.forEach(root::remove);
-                displayClickedOption(root, finalI);
             });
 
             root.add(button, x, y, width, height);
@@ -95,7 +86,7 @@ public class Fabricator_Gui_Description extends SyncedGuiDescription
         }
     }
 
-    private void displayClickedOption(WPlainPanel root, int option) {
+    public void displayClickedOption(WPlainPanel root, int option) {
         final List<WWidget> widgets = new ArrayList<>();
 
         WLabel title = new WLabel(multiblockOptions.get(option).title);
@@ -108,8 +99,7 @@ public class Fabricator_Gui_Description extends SyncedGuiDescription
         widgets.add(button);
         button.setOnClick(() -> {
             widgets.forEach(root::remove);
-            displayOptions(root);
-            propertyDelegate.set(0, -1);
+            propertyDelegate.set(1, -1);
         });
         root.add(button, 57, 10, 20, 20);
     }
