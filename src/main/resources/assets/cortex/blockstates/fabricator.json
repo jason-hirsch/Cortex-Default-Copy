@@ -1,0 +1,10 @@
+{
+  "variants" : {
+    "facing=north" : { "model" : "cortex:block/fabricator" },
+    "facing=east" : { "model" : "cortex:block/fabricator", "y": 90 },
+    "facing=south" : { "model" : "cortex:block/fabricator", "y": 180 },
+    "facing=west" : { "model" : "cortex:block/fabricator", "y": 270 },
+    "facing=up" : { "model" : "cortex:block/fabricator" },
+    "facing=down" : { "model" : "cortex:block/fabricator" }
+  }
+}

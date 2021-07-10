@@ -1,0 +1,10 @@
+{
+  "variants" : {
+    "facing=north" : { "model" : "cortex:block/ore_generator_controller" },
+    "facing=east" : { "model" : "cortex:block/ore_generator_controller", "y": 90 },
+    "facing=south" : { "model" : "cortex:block/ore_generator_controller", "y": 180 },
+    "facing=west" : { "model" : "cortex:block/ore_generator_controller", "y": 270 },
+    "facing=up" : { "model" : "cortex:block/ore_generator_controller" },
+    "facing=down" : { "model" : "cortex:block/ore_generator_controller" }
+  }
+}

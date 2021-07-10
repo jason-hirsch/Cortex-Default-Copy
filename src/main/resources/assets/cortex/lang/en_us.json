@@ -1,0 +1,8 @@
+{
+  "itemGroup.cortex.general" : "Cortex",
+
+  "block.cortex.fabricator" : "Fabricator",
+  "block.cortex.fabricator.tooltip" : "Multiblock guidance",
+
+  "block.cortex.ore_generator_controller" : "Ore Generator Controller"
+}
