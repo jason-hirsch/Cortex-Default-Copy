@@ -12,11 +12,9 @@ import io.github.cottonmc.cotton.gui.widget.icon.TextureIcon;
 import net.Cortex.main.MainEntry;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,27 +23,18 @@ import java.util.Optional;
 public class Fabricator_Gui_Description extends SyncedGuiDescription
 {
     private static final int PROPERTY_COUNT = 2;
-    private static final List<MultiblockOption> multiblockOptions = new ArrayList<>();
     private static final TextureIcon backArrow = new TextureIconSubclass(new Identifier("cortex", "textures/block/fabricator/back_arrow.png"));
     private Identifier SHOULD_BE_AT_MESSAGE_ID = null;
-
-    public static void addMultiblockOption(Item itemForIcon, Text title) {
-        ItemIcon icon = new ItemIconSubclass(itemForIcon);
-        multiblockOptions.add(new MultiblockOption(icon, title));
-    }
 
     public Fabricator_Gui_Description(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context)
     {
         super(MainEntry.FABRICATOR_SCREEN_HANDLER_TYPE, syncId, playerInventory, getBlockInventory(context, 12), getBlockPropertyDelegate(context, PROPERTY_COUNT));
 
-        Optional<String> posStringOptional = context.get((world, pos) -> Integer.toString(pos.getX()) + Integer.toString(pos.getY()) + Integer.toString(pos.getZ()));
+        Optional<String> posStringOptional = context.get((world, pos) -> Integer.toString(pos.getX()) + pos.getY() + pos.getZ());
         if(posStringOptional.isPresent())
         {
             SHOULD_BE_AT_MESSAGE_ID = new Identifier("cortex", "fabricatorat" + posStringOptional.get() + "shouldbe");
-            ScreenNetworking.of(this, NetworkSide.SERVER).receive(SHOULD_BE_AT_MESSAGE_ID, buf ->
-            {
-                propertyDelegate.set(1, buf.readInt());
-            });
+            ScreenNetworking.of(this, NetworkSide.SERVER).receive(SHOULD_BE_AT_MESSAGE_ID, buf -> propertyDelegate.set(1, buf.readInt()));
         }
 
         setTitlePos(new Vec2i(62, 5));
@@ -79,8 +68,8 @@ public class Fabricator_Gui_Description extends SyncedGuiDescription
         final int height = 20;
         final int countPerRow = 5;
 
-        for(int i = 0; i < multiblockOptions.size(); i++) {
-            MultiblockOption option = multiblockOptions.get(i);
+        for(int i = 0; i < Fabricator_Entity.multiblockOptions.size(); i++) {
+            MultiblockOption option = Fabricator_Entity.multiblockOptions.get(i);
 
             WButton button = new WButton();
             button.setAlignment(HorizontalAlignment.CENTER);
@@ -108,7 +97,7 @@ public class Fabricator_Gui_Description extends SyncedGuiDescription
     public void displayClickedOption(WPlainPanel root, int option) {
         final List<WWidget> widgets = new ArrayList<>();
 
-        WLabel title = new WLabel(multiblockOptions.get(option).title);
+        WLabel title = new WLabel(Fabricator_Entity.multiblockOptions.get(option).title);
         title.setHorizontalAlignment(HorizontalAlignment.CENTER);
         widgets.add(title);
         root.add(title, 82, 15, 78, 20);

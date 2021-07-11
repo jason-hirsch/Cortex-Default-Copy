@@ -51,21 +51,21 @@ public class MainEntry implements ModInitializer
 		fabricator_entity = Registry.register(Registry.BLOCK_ENTITY_TYPE, "cortex:fabricator", FabricBlockEntityTypeBuilder.create(Fabricator_Entity::new, fabricator_block).build());
 		FABRICATOR_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerExtended(new Identifier("cortex", "fabricator"), (syncId, inventory, buf) -> new Fabricator_Gui_Description(syncId, inventory, ScreenHandlerContext.create(inventory.player.world, buf.readBlockPos())));
 
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
-		Fabricator_Gui_Description.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
+		Fabricator_Entity.addMultiblockOption(fabricator_block.asItem(), new TranslatableText(fabricator_block.getTranslationKey()));
 
 		System.out.println("Hello Fabric world!");
 	}

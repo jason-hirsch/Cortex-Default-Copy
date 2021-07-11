@@ -1,6 +1,7 @@
 package net.Cortex.main.Fabricator;
 
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
+import io.github.cottonmc.cotton.gui.widget.icon.ItemIcon;
 import net.Cortex.main.MainEntry;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -10,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -26,20 +28,29 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public class Fabricator_Entity extends BlockEntity implements Fabricator_Inventory, SidedInventory, InventoryProvider, PropertyDelegateHolder, ExtendedScreenHandlerFactory
 {
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(12, ItemStack.EMPTY);
-    private int multiblockOptionIs = -10;
-    private int multiblockOptionShouldBe = -1;
+    public static ConcurrentHashMap<Integer, MultiblockOption> multiblockOptions = new ConcurrentHashMap<>();
+    public AtomicInteger multiblockOptionIs = new AtomicInteger(-10);
+    public int multiblockOptionShouldBe = -1;
+    public AtomicInteger multiblockSize = new AtomicInteger(3);
+
+    public static void addMultiblockOption(Item itemForIcon, Text title) {
+        ItemIcon icon = new ItemIconSubclass(itemForIcon);
+        multiblockOptions.put(multiblockOptions.size(), new MultiblockOption(icon, title));
+    }
 
     private final PropertyDelegate propertyDelegate = new PropertyDelegate()
     {
         @Override
         public int get(int index)
         {
-            if(index == 0) return multiblockOptionIs;
+            if(index == 0) return multiblockOptionIs.get();
             else if(index == 1) return multiblockOptionShouldBe;
             return -2;
         }
@@ -47,8 +58,9 @@ public class Fabricator_Entity extends BlockEntity implements Fabricator_Invento
         @Override
         public void set(int index, int value)
         {
-            if(index == 0) multiblockOptionIs = value;
+            if(index == 0) multiblockOptionIs.set(value);
             else if(index == 1) multiblockOptionShouldBe = value;
+            markDirty();
         }
 
         @Override
@@ -81,18 +93,19 @@ public class Fabricator_Entity extends BlockEntity implements Fabricator_Invento
     public void readNbt(NbtCompound nbt)
     {
         super.readNbt(nbt);
-        multiblockOptionShouldBe = nbt.getInt("multiblockOptionShouldBe");
-        multiblockOptionIs = nbt.getInt("multiblockOptionIs");
         Inventories.readNbt(nbt, items);
+        multiblockOptionShouldBe = nbt.getInt("multiBlockOptionShouldBe");
+        multiblockSize.set(nbt.getInt("multiblockSize"));
     }
 
     @Override
     public NbtCompound writeNbt(NbtCompound nbt)
     {
+        super.writeNbt(nbt);
         Inventories.writeNbt(nbt, items);
-        nbt.putInt("multiblockOptionIs", multiblockOptionIs);
         nbt.putInt("multiBlockOptionShouldBe", multiblockOptionShouldBe);
-        return super.writeNbt(nbt);
+        nbt.putInt("multiblockSize", multiblockSize.get());
+        return nbt;
     }
 
     @Override
@@ -122,7 +135,7 @@ public class Fabricator_Entity extends BlockEntity implements Fabricator_Invento
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player)
     {
-        multiblockOptionIs = -10;
+        multiblockOptionIs.set(-10); //anything that isn't >= -1
         return new Fabricator_Gui_Description(syncId, inv, ScreenHandlerContext.create(world, pos));
     }
 
